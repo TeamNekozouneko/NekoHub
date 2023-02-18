@@ -1,0 +1,8 @@
+enable-stickmenu: true
+
+servers:
+  - position: 0
+    material: CHEST
+    name: "ロビー"
+    lore: []
+    goto: lobby

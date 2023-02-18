@@ -1,0 +1,41 @@
+name: "NekoHub"
+version: ${version}
+
+author: Taitaitatata
+description: ${description}
+website: ${website}
+
+api-version: 1.16
+main: com.nekozouneko.nekohub.spigot.SpigotNekoHubPlugin
+
+softdepend: ["LuckPerms"]
+
+commands:
+  stickmenu:
+    aliases: ["sm", "menu", "m"]
+    description: "棒メニューを開きます。"
+    permission: nekohub.command.stickmenu
+    usage: "/<command> [target]"
+
+default-permission: true
+
+permissions:
+  nekohub:
+    default: op
+    children:
+      nekohub.stickmenu.open: true
+
+  nekohub.command:
+    default: op
+    children:
+      nekohub.command.stickmenu: true
+      nekohub.command.stickmenu.other: true
+
+  nekohub.command.stickmenu:
+    default: true
+
+  nekohub.command.stickmenu.other:
+    default: op
+
+  nekohub.stickmenu:
+    default: true

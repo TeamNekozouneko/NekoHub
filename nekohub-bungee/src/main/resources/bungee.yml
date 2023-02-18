@@ -1,0 +1,9 @@
+name: "NekoHub"
+version: ${version}
+
+author: Taitaitatata
+description: ${description}
+
+main: com.nekozouneko.nekohub.bungee.BungeeNekoHubPlugin
+
+softDepends: ["LuckPerms"]

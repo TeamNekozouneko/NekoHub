@@ -1,0 +1,3 @@
+permissions:
+  commands:
+    global-tell: true
