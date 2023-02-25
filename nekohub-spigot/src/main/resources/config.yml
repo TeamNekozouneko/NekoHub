@@ -1,8 +1,21 @@
-enable-stickmenu: true
+stickmenu:
+  enabled: true
 
-servers:
-  - position: 0
-    material: CHEST
-    name: "ロビー"
-    lore: []
-    goto: lobby
+  profile:
+    disable-vault: true
+    disable-lp-group: true
+    disable-lp-rank: true
+
+server-list:
+  enabled: true
+
+  size: 54
+  servers:
+    - position: 0
+      material: COMPASS
+      name: "ロビー"
+      lore: []
+      enchant: false
+      custom-model-data: 0
+
+      goto: lobby

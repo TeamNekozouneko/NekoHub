@@ -1,6 +1,7 @@
 package com.nekozouneko.nekohub.spigot;
 
 import com.nekozouneko.nekohub.NekoHubPlugin;
+import com.nekozouneko.nekohub.spigot.command.ServerListCommand;
 import com.nekozouneko.nekohub.spigot.command.StickMenuCommand;
 import com.nekozouneko.nekohub.spigot.listener.BungeeMessageListener;
 import net.luckperms.api.LuckPermsProvider;
@@ -32,8 +33,13 @@ public class SpigotNekoHubPlugin extends JavaPlugin implements NekoHubPlugin {
     public void onEnable() {
         plugin = this;
 
-        getCommand("stickmenu").setExecutor(new StickMenuCommand());
+        saveDefaultConfig();
+        getConfig().options().copyDefaults(true);
 
+        getCommand("stickmenu").setExecutor(new StickMenuCommand());
+        getCommand("serverlist").setExecutor(new ServerListCommand());
+
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeMessageListener());
 
         setUpLuckPerms();
@@ -58,6 +64,10 @@ public class SpigotNekoHubPlugin extends JavaPlugin implements NekoHubPlugin {
     @Override
     public boolean isDependEnabled(Depends depend) {
         return Optional.ofNullable(depends.get(depend)).orElse(false);
+    }
+
+    public void reload() {
+        reloadConfig();
     }
 
     private void setUpLuckPerms() {
