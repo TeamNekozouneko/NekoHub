@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public final class Util {
 
@@ -41,6 +42,19 @@ public final class Util {
 
     public static boolean isUUID(String s) {
         return s.matches("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}") || s.matches("[0-9a-fA-F]{32}");
+    }
+
+    @SafeVarargs
+    public static <K, V> boolean containsKeys(Map<K, V> map, K... keys) {
+        if (keys.length == 0) return false;
+
+        boolean b = true;
+
+        for (K key : keys) {
+            b = b && map.containsKey(key);
+        }
+
+        return b;
     }
 
 }
