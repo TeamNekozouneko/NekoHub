@@ -15,6 +15,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public final class StickMenu extends NHSpigotGUI implements Listener {
@@ -35,8 +38,11 @@ public final class StickMenu extends NHSpigotGUI implements Listener {
 
         ItemStack info = SkullBuilder.of(Material.PLAYER_HEAD)
                 .owner(player)
-                .name(SpigotUtil.toNameAndPrefixSuffix(player, true, true))
+                .name(SpigotUtil.toNameAndPrefixSuffix(player, true))
+                .lore(buildProfile(player))
                 .build();
+
+        inv.setItem(0, info);
     }
 
     @Override
@@ -49,17 +55,21 @@ public final class StickMenu extends NHSpigotGUI implements Listener {
         Bukkit.broadcastMessage("Event called");
         if (e.getInventory().getHolder() != this) return;
 
+
+
         e.setCancelled(true);
+
+        update();
     }
 
     @EventHandler
     public void onClose(InventoryCloseEvent e) {
         if (e.getInventory().getHolder() != this) return;
 
-        Bukkit.getScheduler().runTask(plugin, () -> HandlerList.unregisterAll(this));
+        HandlerList.unregisterAll(this);
     }
 
     private List<String> buildProfile(Player p) {
-
+        return new ArrayList<>();
     }
 }
