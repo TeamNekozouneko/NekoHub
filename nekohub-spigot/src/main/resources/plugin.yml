@@ -15,7 +15,12 @@ commands:
     aliases: ["sm", "menu", "m"]
     description: "棒メニューを開きます。"
     permission: nekohub.command.stickmenu
-    usage: "/<command> [target]"
+    usage: "/<command> [target...]"
+  serverlist:
+    aliases: ["servers"]
+    description: "サーバーリストを開きます。"
+    permission: nekohub.command.serverlist
+    usage: "/<command> [target...]"
 
 default-permission: true
 
@@ -35,6 +40,12 @@ permissions:
     default: true
 
   nekohub.command.stickmenu.other:
+    default: op
+
+  nekohub.command.serverlist:
+    default: true
+
+  nekohub.command.serverlist.other:
     default: op
 
   nekohub.stickmenu:
