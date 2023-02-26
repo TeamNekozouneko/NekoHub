@@ -17,10 +17,6 @@ public final class SkullBuilder extends AbstractItemStackBuilder<SkullBuilder, S
     }
 
     public static SkullBuilder of(Material material) {
-        Preconditions.checkArgument(
-                material == Material.PLAYER_HEAD || material == Material.PLAYER_WALL_HEAD
-        );
-
         ItemStack item = new ItemStack(material);
         SkullMeta meta = (SkullMeta) item.getItemMeta();
 
