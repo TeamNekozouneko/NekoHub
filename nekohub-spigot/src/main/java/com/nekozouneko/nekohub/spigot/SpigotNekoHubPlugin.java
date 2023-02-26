@@ -1,9 +1,11 @@
 package com.nekozouneko.nekohub.spigot;
 
 import com.nekozouneko.nekohub.NekoHubPlugin;
+import com.nekozouneko.nekohub.spigot.command.RulebookCommand;
 import com.nekozouneko.nekohub.spigot.command.ServerListCommand;
 import com.nekozouneko.nekohub.spigot.command.StickMenuCommand;
 import com.nekozouneko.nekohub.spigot.listener.BungeeMessageListener;
+import com.nekozouneko.nekohub.spigot.listener.InteractListener;
 import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -38,6 +40,9 @@ public class SpigotNekoHubPlugin extends JavaPlugin implements NekoHubPlugin {
 
         getCommand("stickmenu").setExecutor(new StickMenuCommand());
         getCommand("serverlist").setExecutor(new ServerListCommand());
+        getCommand("rulebook").setExecutor(new RulebookCommand());
+
+        getServer().getPluginManager().registerEvents(new InteractListener(), this);
 
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeMessageListener());
