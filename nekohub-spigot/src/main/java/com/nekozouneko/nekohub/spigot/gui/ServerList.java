@@ -25,6 +25,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
@@ -32,16 +33,19 @@ import org.bukkit.plugin.Plugin;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public final class ServerList extends NHSpigotGUI implements Listener {
 
     private final Plugin plugin;
     private final Inventory inv;
+    private final Consumer<Player> onClose;
 
-    public ServerList(Plugin plugin, Player p) {
+    public ServerList(Plugin plugin, Player p, Consumer<Player> onClose) {
         super(p);
         this.plugin = plugin;
         this.inv = Bukkit.createInventory(this, plugin.getConfig().getInt("server-list.size", 54), "サーバーを選択");
+        this.onClose = onClose;
 
         if (!plugin.getConfig().getBoolean("server-list.enabled")) {
             throw new RuntimeException("Server list is disabled.");
@@ -101,6 +105,11 @@ public final class ServerList extends NHSpigotGUI implements Listener {
         if (e.getInventory().getHolder() != this) return;
 
         HandlerList.unregisterAll(this);
+        if (onClose != null) {
+            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                onClose.accept(player);
+            }, 1);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -111,7 +120,7 @@ public final class ServerList extends NHSpigotGUI implements Listener {
         int pos = Integer.parseInt(String.valueOf(map.get("position")));
 
         String name = String.valueOf(map.get("name"));
-        List<String> lore = (List<String>) map.getOrDefault("lore", new ArrayList<>());
+        List<String> lore = Util.replaceAltCodes((List<String>) map.getOrDefault("lore", new ArrayList<>()));
         boolean enchant = Boolean.parseBoolean(String.valueOf(map.get("enchant")));
 
         AbstractItemStackBuilder builder;
@@ -133,7 +142,7 @@ public final class ServerList extends NHSpigotGUI implements Listener {
                 ItemFlag.HIDE_UNBREAKABLE
         );
 
-        builder.name(name);
+        builder.name(name != null ? Util.replaceAltCodes(name) : null);
         builder.lore(lore);
         if (enchant) {
             builder.enchant(Enchantment.DURABILITY, 1, false);
