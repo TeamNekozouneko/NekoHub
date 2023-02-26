@@ -12,8 +12,8 @@ public abstract class NHSpigotGUI implements InventoryHolder {
     }
 
     public void open() {
-        player.openInventory(getInventory());
         update();
+        player.openInventory(getInventory());
     }
 
     public Player getPlayer() {
