@@ -36,7 +36,7 @@ public final class ServerListCommand implements CommandExecutor, TabCompleter {
             }
 
             Player p = (Player) sender;
-            new ServerList((SpigotNekoHubPlugin) SpigotNekoHubPlugin.getInstance(), p).open();
+            new ServerList((SpigotNekoHubPlugin) SpigotNekoHubPlugin.getInstance(), p, null).open();
         }
         else {
             if (!sender.hasPermission("nekohub.command.serverlist.other")) {
@@ -58,7 +58,7 @@ public final class ServerListCommand implements CommandExecutor, TabCompleter {
             }
 
 
-            ps.forEach((player -> new ServerList((Plugin) SpigotNekoHubPlugin.getInstance(), player).open()));
+            ps.forEach((player -> new ServerList((Plugin) SpigotNekoHubPlugin.getInstance(), player, null).open()));
         }
 
         return true;
