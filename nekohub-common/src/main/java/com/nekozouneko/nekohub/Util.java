@@ -36,6 +36,13 @@ public final class Util {
         return s.replaceAll("#([0-9A-F])([0-9A-F])([0-9A-F])([0-9A-F])([0-9A-F])([0-9A-F])", "§x§$1§$2§$3§$4§$5§$6").replaceAll("#([0-9A-F])([0-9A-F])([0-9A-F])", "§x§$1§$2§$3").replaceAll("&([0-9A-FKLMNORXa-fklmnorx])", "§$1");
     }
 
+    public static List<String> replaceAltCodes(List<String> list) {
+        List<String> result = new ArrayList<>();
+        list.forEach((s) -> result.add(replaceAltCodes(s)));
+
+        return result;
+    }
+
     public static <T> T orElse(T obj, T def) {
         return obj != null ? obj : def;
     }
@@ -55,6 +62,21 @@ public final class Util {
         }
 
         return b;
+    }
+
+    public static String toHrsMinSecFormat(String format, long time) {
+        long hrs = time / 60 / 60;
+        long min = (time - hrs * 60 * 60) / 60;
+        long sec = (time - hrs * 60 * 60) - 60 * min;
+
+        return String.format(format, hrs, min, sec);
+    }
+
+    public static String toMinSecFormat(String format, long time) {
+        long min = time / 60;
+        long sec = time - (min * 60);
+
+        return String.format(format, min, sec);
     }
 
 }
