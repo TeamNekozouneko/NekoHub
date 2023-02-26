@@ -1,5 +1,9 @@
+rulebook:
+  content: []
+
 stickmenu:
   enabled: true
+  stick-interact: true
 
   profile:
     disable-vault: true
@@ -8,6 +12,7 @@ stickmenu:
 
 server-list:
   enabled: true
+  stick-interact: true
 
   size: 54
   servers:
