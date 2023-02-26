@@ -17,10 +17,15 @@ commands:
     permission: nekohub.command.stickmenu
     usage: "/<command> [target...]"
   serverlist:
-    aliases: ["servers"]
+    aliases: ["sl", "servers"]
     description: "サーバーリストを開きます。"
     permission: nekohub.command.serverlist
     usage: "/<command> [target...]"
+  rulebook:
+    aliases: ["rule", "readme"]
+    description: "ルールブックを開きます。"
+    permission: nekohub.command.rulebook
+    usage: "/<command>"
 
 default-permission: true
 
@@ -35,6 +40,9 @@ permissions:
     children:
       nekohub.command.stickmenu: true
       nekohub.command.stickmenu.other: true
+      nekohub.command.serverlist: true
+      nekohub.command.serverlist.other: true
+      nekohub.command.rulebook: true
 
   nekohub.command.stickmenu:
     default: true
@@ -48,5 +56,17 @@ permissions:
   nekohub.command.serverlist.other:
     default: op
 
-  nekohub.stickmenu:
+  nekohub.command.rulebook:
+    default: true
+
+  nekohub.interact:
+    default: op
+    children:
+      nekohub.interact.stickmenu: true
+      nekohub.interact.serverlist: true
+
+  nekohub.interact.stickmenu:
+    default: true
+
+  nekohub.interact.serverlist:
     default: true
