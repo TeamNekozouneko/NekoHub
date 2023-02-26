@@ -7,6 +7,8 @@ import com.nekozouneko.nekohub.NekoHubPlugin;
 import com.nekozouneko.nekohub.Util;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -34,17 +36,17 @@ public final class SpigotUtil {
         StringBuilder sb = new StringBuilder();
 
         if (plugin.isDependEnabled(NekoHubPlugin.Depends.VAULT_CHAT)) {
-            sb.append(Strings.nullToEmpty(VaultUtil.getChat().getPlayerPrefix(p)));
+            sb.append(Util.replaceAltCodes(Strings.nullToEmpty(VaultUtil.getChat().getPlayerPrefix(p))));
             sb.append(p.getName());
-            sb.append(Strings.nullToEmpty(VaultUtil.getChat().getPlayerSuffix(p)));
+            sb.append(Util.replaceAltCodes(Strings.nullToEmpty(VaultUtil.getChat().getPlayerSuffix(p))));
         }
         else if (plugin.isDependEnabled(NekoHubPlugin.Depends.LUCKPERMS)) {
             final User u = LuckPermsProvider.get().getUserManager().getUser(p.getUniqueId());
             Preconditions.checkState(u != null);
 
-            sb.append(Strings.nullToEmpty(u.getCachedData().getMetaData().getPrefix()));
+            sb.append(Util.replaceAltCodes(Strings.nullToEmpty(u.getCachedData().getMetaData().getPrefix())));
             sb.append(p.getName());
-            sb.append(Strings.nullToEmpty(u.getCachedData().getMetaData().getSuffix()));
+            sb.append(Util.replaceAltCodes(Strings.nullToEmpty(u.getCachedData().getMetaData().getSuffix())));
         }
         else sb.append(p.getName());
 
