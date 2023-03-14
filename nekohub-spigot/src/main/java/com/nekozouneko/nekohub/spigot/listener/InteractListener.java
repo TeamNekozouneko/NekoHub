@@ -4,6 +4,7 @@ import com.nekozouneko.nekohub.spigot.SpigotNekoHubPlugin;
 import com.nekozouneko.nekohub.spigot.gui.ServerList;
 import com.nekozouneko.nekohub.spigot.gui.StickMenu;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -23,6 +24,10 @@ public class InteractListener implements Listener {
                             && e.getPlayer().hasPermission("nekohub.interact.stickmenu")
                     ) {
                         new ServerList(plugin, e.getPlayer(), null).open();
+                        e.getPlayer().playSound(
+                                e.getPlayer().getLocation(),
+                                Sound.BLOCK_PORTAL_AMBIENT, 1, 2
+                        );
                     }
                     break;
                 }
@@ -32,6 +37,10 @@ public class InteractListener implements Listener {
                             && e.getPlayer().hasPermission("nekohub.interact.serverlist")
                     ) {
                         new StickMenu(plugin, e.getPlayer()).open();
+                        e.getPlayer().playSound(
+                                e.getPlayer().getLocation(),
+                                Sound.BLOCK_CHEST_OPEN, 1, .5f
+                        );
                     }
                     break;
                 }

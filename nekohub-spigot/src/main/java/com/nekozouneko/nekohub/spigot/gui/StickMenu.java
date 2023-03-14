@@ -8,6 +8,7 @@ import com.nekozouneko.nekohub.inventory.item.SkullBuilder;
 import com.nekozouneko.nekohub.spigot.SpigotNekoHubPlugin;
 import com.nekozouneko.nekohub.spigot.SpigotUtil;
 import com.nekozouneko.nekohub.spigot.VaultUtil;
+import com.nekozouneko.nekohub.spigot.task.LoopTask;
 import com.nekozouneko.nekohub.spigot.task.SuicideTask;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
@@ -154,11 +155,13 @@ public final class StickMenu extends NHSpigotGUI implements Listener {
             case "server": {
                 p.closeInventory();
                 new ServerList(plugin, p, (p1) -> new StickMenu(plugin, p1).open()).open();
+                p.playSound(p.getLocation(), Sound.BLOCK_PORTAL_AMBIENT, 1, 2);
                 break;
             }
             case "suicide": {
                 p.closeInventory();
                 new SuicideTask(p, 5).runTaskTimer(plugin, 0, 20);
+                new LoopTask(20, (v) -> p.playSound(p.getLocation(), Sound.BLOCK_BELL_USE, 1, 1)).runTaskTimer(plugin, 0, 1);
                 break;
             }
             case "enderchest": {
@@ -187,7 +190,7 @@ public final class StickMenu extends NHSpigotGUI implements Listener {
                 if (p.getBedSpawnLocation() != null) {
                     p.closeInventory();
                     p.teleport(p.getBedSpawnLocation());
-                    p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1, 0);
+                    p.playSound(p.getLocation(), Sound.BLOCK_PORTAL_TRAVEL, 1, 2);
                 }
                 else {
                     p.sendMessage("§cベッドまたはリスポーンアンカーが破壊, 埋もれているか、スポーン地点が設定されていません。");

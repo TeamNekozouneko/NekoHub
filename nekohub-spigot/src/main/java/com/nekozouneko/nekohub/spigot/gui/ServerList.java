@@ -60,8 +60,6 @@ public final class ServerList extends NHSpigotGUI implements Listener {
         List<Map<String, Object>> sections = ((List) plugin.getConfig().getList("server-list.servers"));
 
         Preconditions.checkNotNull(sections);
-        player.sendMessage(sections.get(0).get("enchant").toString());
-        player.sendMessage((sections.get(0).get("enchant") instanceof Boolean) + "");
         sections.forEach(this::buildItem);
     }
 

@@ -5,6 +5,7 @@ import com.nekozouneko.nekohub.inventory.item.ItemStackBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -88,7 +89,9 @@ public final class ConfirmScreen extends NHSpigotGUI implements Listener {
                 onYes.accept(((Player) e.getWhoClicked()));
             }
             else onNo.accept(((Player) e.getWhoClicked()));
+            player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
             confirmed = true;
+
             Bukkit.getScheduler().runTaskLater(plugin, e.getWhoClicked()::closeInventory, 1);
         }
     }

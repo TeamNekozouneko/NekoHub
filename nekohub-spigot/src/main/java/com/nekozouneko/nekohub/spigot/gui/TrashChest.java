@@ -2,6 +2,7 @@ package com.nekozouneko.nekohub.spigot.gui;
 
 import com.nekozouneko.nekohub.inventory.Inventories;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -49,6 +50,7 @@ public final class TrashChest extends NHSpigotGUI implements Listener {
                             }
                         }
                 ).open();
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
             }
         }, 1);
     }
