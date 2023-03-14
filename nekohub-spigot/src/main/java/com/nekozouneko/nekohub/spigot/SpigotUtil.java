@@ -10,12 +10,16 @@ import net.luckperms.api.model.user.User;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
 
 public final class SpigotUtil {
@@ -67,6 +71,46 @@ public final class SpigotUtil {
             return Bukkit.getOfflinePlayer(UUID.fromString(s));
         }
         else return Bukkit.getOfflinePlayer(s);
+    }
+
+    public static String locationFormat(String format, Location loc) {
+        Preconditions.checkArgument(format != null);
+        Preconditions.checkArgument(loc != null);
+
+        return String.format(format, loc.getX(), loc.getY(), loc.getZ(), loc.getWorld().getName());
+    }
+
+    /**
+     *
+     * @param plugin Plugin
+     * @param prop server.properties
+     * @return spawn
+     */
+    public static Location getSpawn(SpigotNekoHubPlugin plugin, Properties prop) {
+        final MemorySection c = plugin.getConfig();
+        World w = null;
+        if (c.getBoolean("world-spawn.custom-world-enabled")) {
+            w = Bukkit.getWorld(c.getString("world-spawn.world"));
+        }
+
+        if (w == null) {
+            w = Bukkit.getWorld(prop.getProperty("level-name"));
+            if (w == null) w = Bukkit.getWorlds().get(0);
+        }
+
+        Location loc;
+        if (c.getBoolean("world-spawn.custom-location-enabled")) {
+            loc = new Location(w,
+                    c.getDouble("world-spawn.x"),
+                    c.getDouble("world-spawn.y"),
+                    c.getDouble("world-spawn.z"),
+                    (float) c.getDouble("world-spawn.yaw"),
+                    (float) c.getDouble("world-spawn.pitch")
+            );
+        }
+        else loc = w.getSpawnLocation();
+
+        return loc;
     }
 
 }
