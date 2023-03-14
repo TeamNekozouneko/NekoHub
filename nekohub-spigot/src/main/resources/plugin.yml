@@ -26,6 +26,22 @@ commands:
     description: "ルールブックを開きます。"
     permission: nekohub.command.rulebook
     usage: "/<command>"
+  stick:
+    aliases: ["s"]
+    description: "棒を入手します。"
+    permission: nekohub.command.stick
+    usage: "/<command>"
+  server:
+    permission: nekohub.command.server
+    usage: "/<command> <server> [player]"
+  hub:
+    aliases: ["lobby"]
+    permission: nekohub.command.hub
+    usage: "/<command>"
+  nekohub:
+    aliases: ["nh"]
+    permission: nekohub.command.nekohub
+    usage: "/<command> reload"
 
 default-permission: true
 
@@ -43,6 +59,11 @@ permissions:
       nekohub.command.serverlist: true
       nekohub.command.serverlist.other: true
       nekohub.command.rulebook: true
+      nekohub.command.stick: true
+      nekohub.command.nekohub: true
+      nekohub.command.hub: true
+      nekohub.command.server: true
+      nekohub.command.server.other: true
 
   nekohub.command.stickmenu:
     default: true
@@ -58,6 +79,21 @@ permissions:
 
   nekohub.command.rulebook:
     default: true
+
+  nekohub.command.stick:
+    default: true
+
+  nekohub.command.nekohub:
+    default: op
+
+  nekohub.command.hub:
+    default: true
+
+  nekohub.command.server:
+    default: op
+
+  nekohub.command.server.other:
+    default: op
 
   nekohub.interact:
     default: op
