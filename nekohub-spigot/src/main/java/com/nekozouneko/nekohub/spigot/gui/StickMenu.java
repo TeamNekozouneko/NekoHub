@@ -8,11 +8,10 @@ import com.nekozouneko.nekohub.inventory.item.SkullBuilder;
 import com.nekozouneko.nekohub.spigot.SpigotNekoHubPlugin;
 import com.nekozouneko.nekohub.spigot.SpigotUtil;
 import com.nekozouneko.nekohub.spigot.VaultUtil;
+import com.nekozouneko.nekohub.spigot.task.SuicideTask;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Statistic;
+import org.bukkit.*;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,7 +25,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +32,9 @@ import java.util.List;
 public final class StickMenu extends NHSpigotGUI implements Listener {
 
     private final Inventory inv = Bukkit.createInventory(this, 27, "棒メニュー");
-    private final Plugin plugin;
+    private final SpigotNekoHubPlugin plugin;
 
-    public StickMenu(Plugin plugin, Player p) {
+    public StickMenu(SpigotNekoHubPlugin plugin, Player p) {
         super(p);
         this.plugin = plugin;
 
@@ -46,6 +44,7 @@ public final class StickMenu extends NHSpigotGUI implements Listener {
     @Override
     public void update() {
         inv.clear();
+        MemorySection c = plugin.getConfig();
 
         ItemStack info = SkullBuilder.of(Material.PLAYER_HEAD)
                 .owner(player)
@@ -65,9 +64,59 @@ public final class StickMenu extends NHSpigotGUI implements Listener {
                 .persistentData(new NamespacedKey(plugin, "action"), PersistentDataType.STRING, "server")
                 .build();
 
-        inv.setItem(0, info);
-        inv.setItem(7, rb);
-        inv.setItem(8, sl);
+        ItemStack suicide = ItemStackBuilder.of(Material.REDSTONE)
+                .name("§c自殺を行う")
+                .lore(
+                        "§7§nバグや詰んだ場合実行することを推奨します。", "",
+                        "§7アイテムの保持はゲームルールから継承されます。"
+                )
+                .persistentData(new NamespacedKey(plugin, "action"), PersistentDataType.STRING, "suicide")
+                .build();
+
+        ItemStack ender = ItemStackBuilder.of(Material.ENDER_CHEST)
+                .name("§5エンダーチェストを開く")
+                .persistentData(new NamespacedKey(plugin, "action"), PersistentDataType.STRING, "enderchest")
+                .build();
+
+        ItemStack trash = ItemStackBuilder.of(Material.LAVA_BUCKET)
+                .name("§3ゴミ箱")
+                .lore("§7※ゴミ箱に入れ捨てたアイテムは一切復元いたしません。")
+                .persistentData(new NamespacedKey(plugin, "action"), PersistentDataType.STRING, "trash")
+                .build();
+
+        ItemStack bed = ItemStackBuilder.of(Material.RED_BED)
+                .name("§9設定したスポーン地点に戻る")
+                .persistentData(new NamespacedKey(plugin, "action"), PersistentDataType.STRING, "bed-spawn")
+                .build();
+
+        ItemStack spawn = ItemStackBuilder.of(Material.ENDER_PEARL)
+                .name("§9サーバーのスポーン地点に戻る")
+                .persistentData(new NamespacedKey(plugin, "action"), PersistentDataType.STRING, "server-spawn")
+                .build();
+
+        inv.setItem(c.getInt("stickmenu.buttons.profile.position"), info);
+        if (c.getBoolean("stickmenu.buttons.rulebook.enabled")) {
+            inv.setItem(c.getInt("stickmenu.buttons.rulebook.position"), rb);
+        }
+        if (c.getBoolean("stickmenu.buttons.server-list.enabled")) {
+            inv.setItem(c.getInt("stickmenu.buttons.server-list.position"), sl);
+        }
+
+        if (c.getBoolean("stickmenu.buttons.trash.enabled")) {
+            inv.setItem(c.getInt("stickmenu.buttons.trash.position"), trash);
+        }
+        if (c.getBoolean("stickmenu.buttons.suicide.enabled")) {
+            inv.setItem(c.getInt("stickmenu.buttons.suicide.position"), suicide);
+        }
+        if (c.getBoolean("stickmenu.buttons.enderchest.enabled")) {
+            inv.setItem(c.getInt("stickmenu.buttons.enderchest.position"), ender);
+        }
+        if (c.getBoolean("stickmenu.buttons.bed-spawn.enabled")) {
+            inv.setItem(c.getInt("stickmenu.buttons.bed-spawn.position"), bed);
+        }
+        if (c.getBoolean("stickmenu.buttons.server-spawn.enabled")) {
+            inv.setItem(c.getInt("stickmenu.buttons.server-spawn.position"), spawn);
+        }
     }
 
     @Override
@@ -77,7 +126,6 @@ public final class StickMenu extends NHSpigotGUI implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent e) {
-        Bukkit.broadcastMessage("Event called");
         if (e.getInventory().getHolder() != this) return;
 
         e.setCancelled(true);
@@ -88,7 +136,7 @@ public final class StickMenu extends NHSpigotGUI implements Listener {
         if (item == null || item.getType().isAir()) return;
 
         PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
-        Bukkit.broadcastMessage(pdc.getOrDefault(new NamespacedKey(plugin, "action"), PersistentDataType.STRING, ""));
+        MemorySection c = plugin.getConfig();
 
         switch (pdc.getOrDefault(new NamespacedKey(plugin, "action"), PersistentDataType.STRING, "")) {
             case "rule": {
@@ -106,6 +154,44 @@ public final class StickMenu extends NHSpigotGUI implements Listener {
             case "server": {
                 p.closeInventory();
                 new ServerList(plugin, p, (p1) -> new StickMenu(plugin, p1).open()).open();
+                break;
+            }
+            case "suicide": {
+                p.closeInventory();
+                new SuicideTask(p, 5).runTaskTimer(plugin, 0, 20);
+                break;
+            }
+            case "enderchest": {
+                p.closeInventory();
+                p.playSound(p.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, 1, 1);
+                p.openInventory(p.getEnderChest());
+                break;
+            }
+            case "trash": {
+                p.closeInventory();
+                new TrashChest(plugin, p, new ItemStack[0]).open();
+                break;
+            }
+            case "server-spawn": {
+                if (plugin.getSpawn() != null) {
+                    p.closeInventory();
+                    p.teleport(plugin.getSpawn());
+                    p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1, 0);
+                }
+                else {
+                    p.sendMessage("§c設定に不具合があるためテレポートできませんでした。");
+                }
+                break;
+            }
+            case "bed-spawn": {
+                if (p.getBedSpawnLocation() != null) {
+                    p.closeInventory();
+                    p.teleport(p.getBedSpawnLocation());
+                    p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1, 0);
+                }
+                else {
+                    p.sendMessage("§cベッドまたはリスポーンアンカーが破壊, 埋もれているか、スポーン地点が設定されていません。");
+                }
                 break;
             }
         }
