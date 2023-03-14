@@ -42,6 +42,25 @@ commands:
     aliases: ["nh"]
     permission: nekohub.command.nekohub
     usage: "/<command> reload"
+  trash:
+    aliases: ["trashbox", "tb", "gomi"]
+    permission: nekohub.command.trash
+    usage: "/<command> [target...]"
+  bed:
+    aliases: ["bed-spawn", "my-bed"]
+    permission: nekohub.command.bed
+    usage: "/<command>"
+  enderchest:
+    aliases: ["ec", "ender"]
+    permission: nekohub.command.enderchest
+    usage: "/<command>"
+  spawn:
+    aliases: ["world-spawn", "server-spawn"]
+    permission: nekohub.command.spawn
+    usage: "/<command>"
+  suicide:
+    permission: nekohub.command.suicide
+    usage: "/<command>"
 
 default-permission: true
 
@@ -64,6 +83,12 @@ permissions:
       nekohub.command.hub: true
       nekohub.command.server: true
       nekohub.command.server.other: true
+      nekohub.command.trash: true
+      nekohub.command.trash.other: true
+      nekohub.command.bed: true
+      nekohub.command.enderchest: true
+      nekohub.command.spawn: true
+      nekohub.command.suicide: true
 
   nekohub.command.stickmenu:
     default: true
@@ -94,6 +119,24 @@ permissions:
 
   nekohub.command.server.other:
     default: op
+
+  nekohub.command.trash:
+    default: true
+
+  nekohub.command.trash.other:
+    default: op
+
+  nekohub.command.bed:
+    default: true
+
+  nekohub.command.enderchest:
+    default: true
+
+  nekohub.command.spawn:
+    default: true
+
+  nekohub.command.suicide:
+    default: true
 
   nekohub.interact:
     default: op

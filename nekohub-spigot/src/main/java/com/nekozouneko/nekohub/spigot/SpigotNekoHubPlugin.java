@@ -51,6 +51,11 @@ public class SpigotNekoHubPlugin extends JavaPlugin implements NekoHubPlugin {
         getCommand("nekohub").setExecutor(new NekoHubCommand());
         getCommand("hub").setExecutor(new HubCommand());
         getCommand("server").setExecutor(new ServerCommand());
+        getCommand("trash").setExecutor(new TrashCommand());
+        getCommand("suicide").setExecutor(new SuicideCommand());
+        getCommand("spawn").setExecutor(new SpawnCommand());
+        getCommand("bed").setExecutor(new BedSpawnCommand());
+        getCommand("enderchest").setExecutor(new EnderChestCommand());
 
         getServer().getPluginManager().registerEvents(new InteractListener(), this);
         /*getServer().getPluginManager().registerEvents(new PlayerLoginListener(), this);*/

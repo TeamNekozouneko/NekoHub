@@ -4,28 +4,27 @@ import com.google.common.collect.Lists;
 import com.nekozouneko.nekohub.Util;
 import com.nekozouneko.nekohub.spigot.SpigotNekoHubPlugin;
 import com.nekozouneko.nekohub.spigot.SpigotUtil;
-import com.nekozouneko.nekohub.spigot.gui.ServerList;
-import com.nekozouneko.nekohub.spigot.gui.StickMenu;
+import com.nekozouneko.nekohub.spigot.gui.TrashChest;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ServerListCommand implements CommandExecutor, TabCompleter {
+public final class TrashCommand implements CommandExecutor, TabCompleter {
 
     private final SpigotNekoHubPlugin plugin = SpigotNekoHubPlugin.getInstance();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!plugin.getConfig().getBoolean("server-list.enabled")) {
-            sender.sendMessage("§cサーバーリストは設定によって無効化されています。");
+        if (!plugin.getConfig().getBoolean("stickmenu.buttons.trash.enabled")) {
+            sender.sendMessage("§cゴミ箱は設定によって無効化されています。");
             return true;
         }
 
@@ -36,10 +35,9 @@ public final class ServerListCommand implements CommandExecutor, TabCompleter {
             }
 
             Player p = (Player) sender;
-            new ServerList(plugin, p, null).open();
-        }
-        else {
-            if (!sender.hasPermission("nekohub.command.serverlist.other")) {
+            new TrashChest(plugin, p, new ItemStack[0]).open();
+        } else {
+            if (!sender.hasPermission("nekohub.command.trash.other")) {
                 sender.sendMessage("§c権限が不足しています。");
                 return true;
             }
@@ -58,7 +56,7 @@ public final class ServerListCommand implements CommandExecutor, TabCompleter {
             }
 
 
-            ps.forEach((player -> new ServerList(plugin, player, null).open()));
+            ps.forEach((player -> new TrashChest(plugin, player, new ItemStack[0]).open()));
         }
 
         return true;
@@ -67,6 +65,6 @@ public final class ServerListCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) return Lists.newArrayList();
-        else return Util.ignoreCaseTabComp(SpigotUtil.toPlayerNames(), args[args.length-1]);
+        else return Util.ignoreCaseTabComp(SpigotUtil.toPlayerNames(), args[args.length - 1]);
     }
 }
