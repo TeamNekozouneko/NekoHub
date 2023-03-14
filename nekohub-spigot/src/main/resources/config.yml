@@ -1,3 +1,14 @@
+world-spawn:
+  custom-world-enabled: true
+  custom-location-enabled: true
+
+  world: "shin"
+  x: 0.0
+  y: 60.0
+  z: 0.0
+  yaw: 0.0
+  pitch: 0.0
+
 rulebook:
   content: []
 
@@ -9,6 +20,38 @@ stickmenu:
     disable-vault: true
     disable-lp-group: true
     disable-lp-rank: true
+
+  buttons:
+    profile:
+      position: 0
+
+    server-list:
+      enabled: true
+      position: 8
+
+    rulebook:
+      enabled: true
+      position: 7
+
+    enderchest:
+      enabled: true
+      position: 13
+
+    trash:
+      enabled: true
+      position: 15
+
+    suicide:
+      enabled: true
+      position: 14
+
+    server-spawn:
+      enabled: true
+      position: 11
+
+    bed-spawn:
+      enabled: true
+      position: 12
 
 server-list:
   enabled: true
@@ -24,3 +67,6 @@ server-list:
       custom-model-data: 0
 
       goto: lobby
+
+hub-enabled: true
+hub-server: lobby
