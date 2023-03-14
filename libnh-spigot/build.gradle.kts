@@ -2,7 +2,7 @@ plugins {
     id("java")
 }
 
-group = "com.nekozouneko"
+group = "net.nekozouneko"
 version = rootProject.version
 
 repositories {

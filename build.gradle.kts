@@ -2,7 +2,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2" apply false
 }
 
-group = "com.nekozouneko"
+group = "net.nekozouneko"
 version = if (hasProperty("version")) findProperty("version") as String else ""
 
 subprojects {

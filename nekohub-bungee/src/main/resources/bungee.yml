@@ -4,6 +4,6 @@ version: ${version}
 author: Taitaitatata
 description: ${description}
 
-main: com.nekozouneko.nekohub.bungee.BungeeNekoHubPlugin
+main: bungee.net.nekozouneko.nekohub.BungeeNekoHubPlugin
 
 softDepends: ["LuckPerms"]

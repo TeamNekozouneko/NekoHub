@@ -1,0 +1,1 @@
+package net.nekozouneko.nekohub.common.spigot;

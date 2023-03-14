@@ -5,7 +5,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
-group = "com.nekozouneko"
+group = "net.nekozouneko"
 version = rootProject.version
 
 repositories {

@@ -6,7 +6,7 @@ description: ${description}
 website: ${website}
 
 api-version: 1.16
-main: com.nekozouneko.nekohub.spigot.SpigotNekoHubPlugin
+main: net.nekozouneko.nekohub.spigot.SpigotNekoHubPlugin
 
 softdepend: ["LuckPerms"]
 
