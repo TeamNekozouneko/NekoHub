@@ -2,6 +2,8 @@ package com.nekozouneko.nekohub.bungee;
 
 import com.nekozouneko.nekohub.NekoHubPlugin;
 import com.nekozouneko.nekohub.ProxyData;
+import com.nekozouneko.nekohub.bungee.command.DonateCommand;
+import com.nekozouneko.nekohub.bungee.command.VoteCommand;
 import com.nekozouneko.nekohub.bungee.listener.ServerKickListener;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
@@ -42,6 +44,9 @@ public final class BungeeNekoHubPlugin extends Plugin implements NekoHubPlugin {
 
         getProxy().registerChannel("nekohub:proxy");
         getProxy().getPluginManager().registerListener(this, new ServerKickListener());
+
+        getProxy().getPluginManager().registerCommand(this, new DonateCommand());
+        getProxy().getPluginManager().registerCommand(this, new VoteCommand());
     }
 
     @Override

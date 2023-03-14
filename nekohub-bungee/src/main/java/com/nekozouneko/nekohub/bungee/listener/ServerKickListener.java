@@ -4,6 +4,7 @@ import com.nekozouneko.nekohub.bungee.BungeeNekoHubPlugin;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ListenerInfo;
+import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.ServerDisconnectEvent;
 import net.md_5.bungee.api.event.ServerKickEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -21,7 +22,7 @@ public class ServerKickListener implements Listener {
         List<String> ls = li.getServerPriority();
 
         plugin.getLogger().info("Lobbies: " + ls.toString());
-        plugin.getLogger().info("Current: " + e.getPlayer().getServer().getInfo().getName());
+        plugin.getLogger().info("Current: " + (e.getPlayer().getServer() != null ? e.getPlayer().getServer().getInfo().getName() : ""));
         plugin.getLogger().info("Kicked: " + e.getKickedFrom().getName());
         plugin.getLogger().info("Connection state: " + e.getState().name());
         plugin.getLogger().info("Player: " + e.getPlayer().getName());
@@ -46,7 +47,7 @@ public class ServerKickListener implements Listener {
             e.getPlayer().sendMessage(new TextComponent("§7§m----------------------------------------"));
         }
         else {
-            if (e.getKickedFrom().getName().equalsIgnoreCase(ls.get(0))) {
+            if (e.getKickedFrom().getName().equalsIgnoreCase(ls.get(0)) || e.getPlayer().getServer() == null) {
                 plugin.getLogger().info("3");
 
                 BaseComponent[] bc = new BaseComponent[3];
