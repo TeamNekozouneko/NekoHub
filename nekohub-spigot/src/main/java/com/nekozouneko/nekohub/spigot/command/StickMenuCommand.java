@@ -29,7 +29,7 @@ public final class StickMenuCommand implements CommandExecutor, TabCompleter {
             }
 
             Player p = (Player) sender;
-            new StickMenu((Plugin) SpigotNekoHubPlugin.getInstance(), p).open();
+            new StickMenu(SpigotNekoHubPlugin.getInstance(), p).open();
         }
         else {
             if (!sender.hasPermission("nekohub.command.stickmenu.other")) {
@@ -51,7 +51,7 @@ public final class StickMenuCommand implements CommandExecutor, TabCompleter {
             }
 
 
-            ps.forEach((player -> new StickMenu((Plugin) SpigotNekoHubPlugin.getInstance(), player).open()));
+            ps.forEach((player -> new StickMenu(SpigotNekoHubPlugin.getInstance(), player).open()));
         }
 
         return true;
