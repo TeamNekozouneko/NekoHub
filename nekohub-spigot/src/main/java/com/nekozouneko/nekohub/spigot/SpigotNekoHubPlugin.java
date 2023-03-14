@@ -53,6 +53,7 @@ public class SpigotNekoHubPlugin extends JavaPlugin implements NekoHubPlugin {
         getCommand("server").setExecutor(new ServerCommand());
 
         getServer().getPluginManager().registerEvents(new InteractListener(), this);
+        /*getServer().getPluginManager().registerEvents(new PlayerLoginListener(), this);*/
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
 
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
