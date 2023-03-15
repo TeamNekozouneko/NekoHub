@@ -216,10 +216,10 @@ public final class StickMenu extends NHSpigotGUI implements Listener {
 
         if (
                 SpigotNekoHubPlugin.getInstance().isDependEnabled(NekoHubPlugin.Depends.VAULT_ECONOMY)
-                && plugin.getConfig().getBoolean("stickmenu.profile.disable-vault", false)
+                && !plugin.getConfig().getBoolean("stickmenu.profile.disable-vault", true)
         ) {
             Economy eco = VaultUtil.getEconomy();
-            prof.add("§7所持" + eco.currencyNameSingular() + ": §f" + eco.getBalance(p) + (eco.getBalance(p) == 1 ? eco.currencyNameSingular() : eco.currencyNamePlural()));
+            prof.add("§7所持" + eco.currencyNameSingular() + ": §f" + String.format("%,.1f", eco.getBalance(p)) + (eco.getBalance(p) <= 1 ? eco.currencyNameSingular() : eco.currencyNamePlural()));
         }
 
         return prof;
